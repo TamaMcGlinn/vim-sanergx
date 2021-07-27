@@ -25,7 +25,7 @@ endfunction
 function! sanergx#OpenGithub() abort
   let l:line = getline('.')
   if l:line =~ "^Plug '"
-    let url = substitute(substitute(l:line, "^Plug '", 'https://github.com/', ''), "'$", '', '')
+    let url = substitute(substitute(l:line, "^Plug '", 'https://github.com/', ''), "'.*$", '', '')
     call sanergx#GXBrowse(l:url)
   else
     call sanergx#GXBrowse(expand('<cWORD>'))
