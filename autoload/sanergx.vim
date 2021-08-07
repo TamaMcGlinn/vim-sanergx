@@ -24,9 +24,15 @@ endfunction
 " otherwise just open the url
 function! sanergx#OpenGithub() abort
   let l:line = getline('.')
-  if l:line =~ "^Plug '"
-    let url = substitute(substitute(l:line, "^Plug '", 'https://github.com/', ''), "'.*$", '', '')
+  " Plug lines that contain one slash and don't start with slash or ~
+  " are github URIs
+  if l:line =~ "^Plug '[^/~][^/~]*/[^/]*'"
+    let l:url = substitute(substitute(l:line, "^Plug '", 'https://github.com/', ''), "'.*$", '', '')
     call sanergx#GXBrowse(l:url)
+  " Other plug lines are assumed to be directories
+  elseif l:line =~ "^Plug '"
+    let l:directory = substitute(substitute(l:line, "^Plug '", '', ''), "'.*$", '', '')
+    execute 'e '.l:directory
   else
     call sanergx#GXBrowse(expand('<cWORD>'))
   endif
