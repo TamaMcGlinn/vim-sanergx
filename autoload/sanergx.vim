@@ -15,7 +15,10 @@ function! sanergx#GXBrowse(url)
    return
   endif
 
-  execute 'silent! !' . viewer . ' ' . shellescape(a:url, 1) . redir
+  let l:url = substitute(a:url, '.*](', '', '')
+  let l:url = substitute(l:url, ')$', '', '')
+
+  execute 'silent! !' . viewer . ' ' . shellescape(l:url, 1) . redir
   redraw!
 endfunction
 
